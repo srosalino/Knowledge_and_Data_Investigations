@@ -1,0 +1,283 @@
+@prefix : <http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sebas: <http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4> .
+@base <http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4> .
+
+<http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4> rdf:type owl:Ontology ;
+                                                                               rdfs:comment """This work's ontology is under academic context and presents their main actors and describes its domains of action. The Vrije Univesity was considered as the universe for the application of this Ontology, aimed at its main academic agents and beyond.
+
+Eight classes were considered for the development of Ontology, namely: Faculties, Majors and, within these, the most Popular Majores, Courses, Research Areas and People (human resources) and within this class the Teachers and Students subclasses. For each class, at least two instances were created, to which object and date properties were assigned.
+
+The development of Ontology was based on the definition of some explicit relationships (assertions) between the various actors (from the defined properties). In addition to the explicit assertions, it was possible to create a set of valuable implicit assertions arising from the relations and properties previously defined.""" .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#belongsTo
+:belongsTo rdf:type owl:ObjectProperty ;
+           rdfs:domain :course ;
+           rdfs:range :major .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#isBeingLeadBy
+:isBeingLeadBy rdf:type owl:ObjectProperty ,
+                        owl:InverseFunctionalProperty ;
+               rdfs:domain :research ;
+               rdfs:range :people .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#isColleague
+:isColleague rdf:type owl:ObjectProperty ,
+                      owl:SymmetricProperty ,
+                      owl:IrreflexiveProperty ;
+             rdfs:domain :student ;
+             rdfs:range :student .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#isEnrolledIn
+:isEnrolledIn rdf:type owl:ObjectProperty ;
+              rdfs:domain :student ;
+              rdfs:range :course .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#isFriendsWith
+:isFriendsWith rdf:type owl:ObjectProperty ,
+                        owl:SymmetricProperty ;
+               rdfs:domain :people ;
+               rdfs:range :people .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#isLecturedOn
+:isLecturedOn rdf:type owl:ObjectProperty ;
+              owl:inverseOf :lecturesMajor ;
+              rdf:type owl:FunctionalProperty ;
+              rdfs:domain :major ;
+              rdfs:range :faculty .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#lecturesMajor
+:lecturesMajor rdf:type owl:ObjectProperty ;
+               rdfs:domain :faculty ;
+               rdfs:range :major .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#teaches
+:teaches rdf:type owl:ObjectProperty ;
+         rdfs:domain :professor ;
+         rdfs:range :course .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#hasAverageGrade
+:hasAverageGrade rdf:type owl:DatatypeProperty ;
+                 rdfs:domain :course ;
+                 rdfs:range xsd:decimal .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#hasBudget
+:hasBudget rdf:type owl:DatatypeProperty ;
+           rdfs:domain :research ;
+           rdfs:range xsd:decimal .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#hasFullName
+:hasFullName rdf:type owl:DatatypeProperty ;
+             rdfs:domain :people ;
+             rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#hasInitials
+:hasInitials rdf:type owl:DatatypeProperty ;
+             rdfs:domain :faculty ;
+             rdfs:range rdfs:Literal .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#hasNumberOfStudents
+:hasNumberOfStudents rdf:type owl:DatatypeProperty ;
+                     rdfs:domain :major ;
+                     rdfs:range xsd:integer .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#course
+:course rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#faculty
+:faculty rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#major
+:major rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#people
+:people rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#popularMajors
+:popularMajors rdf:type owl:Class ;
+               owl:equivalentClass [ rdf:type owl:Restriction ;
+                                     owl:onProperty :hasNumberOfStudents ;
+                                     owl:someValuesFrom [ rdf:type rdfs:Datatype ;
+                                                          owl:onDatatype xsd:integer ;
+                                                          owl:withRestrictions ( [ xsd:minInclusive 500
+                                                                                 ]
+                                                                               )
+                                                        ]
+                                   ] .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#professor
+:professor rdf:type owl:Class ;
+           rdfs:subClassOf :people ;
+           owl:disjointWith :student .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#research
+:research rdf:type owl:Class .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#student
+:student rdf:type owl:Class ;
+         owl:equivalentClass [ rdf:type owl:Restriction ;
+                               owl:onProperty :isColleague ;
+                               owl:someValuesFrom :student
+                             ] ;
+         rdfs:subClassOf :people ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasFullName ;
+                           owl:someValuesFrom rdfs:Literal
+                         ] .
+
+
+#################################################################
+#    Individuals
+#################################################################
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#BrunoFernandes
+:BrunoFernandes rdf:type owl:NamedIndividual ;
+                :isEnrolledIn :intelligent_systems ;
+                :hasFullName "Bruno Miguel Borges Fernandes" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#JohnDoe
+:JohnDoe rdf:type owl:NamedIndividual ,
+                  :people ;
+         :isFriendsWith :SebastiaoRosalino ;
+         :hasFullName "John Cameron Doe" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#K.S_Schlobach
+:K.S_Schlobach rdf:type owl:NamedIndividual ;
+               :teaches :artificial_intelligency ;
+               :hasFullName "Stefan Schlobach" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#MariaScharakova
+:MariaScharakova rdf:type owl:NamedIndividual ;
+                 :isColleague :SebastiaoRosalino ;
+                 :hasFullName "Maria Theresa Scharakova" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#SebastiaoRosalino
+:SebastiaoRosalino rdf:type owl:NamedIndividual ,
+                            :student ;
+                   :isEnrolledIn :knowledge_and_data ;
+                   :isFriendsWith :VictorDeBoer ;
+                   :hasFullName "Sebastião Manuel Inácio Rosalino" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#VictorDeBoer
+:VictorDeBoer rdf:type owl:NamedIndividual ,
+                       :professor ;
+              :teaches :knowledge_and_data ;
+              :hasFullName "Victor de Boer" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#advanced_robotics
+:advanced_robotics rdf:type owl:NamedIndividual ,
+                            :research ;
+                   :isBeingLeadBy :K.S_Schlobach ;
+                   :hasBudget 500000 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#advanced_robotics_2.0
+:advanced_robotics_2.0 rdf:type owl:NamedIndividual ;
+                       :isBeingLeadBy :K.S_Schlobach .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#artificial_intelligency
+:artificial_intelligency rdf:type owl:NamedIndividual ;
+                         :belongsTo :data_science ;
+                         :hasAverageGrade 8.5 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#data_science
+:data_science rdf:type owl:NamedIndividual ,
+                       :major ;
+              :isLecturedOn :faculty_of_science ,
+                            :faculty_of_science_vu ;
+              :hasNumberOfStudents 325 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#economics
+:economics rdf:type owl:NamedIndividual ;
+           :isLecturedOn :faculty_business_economics ;
+           :hasNumberOfStudents 521 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#faculty_business_economics
+:faculty_business_economics rdf:type owl:NamedIndividual ;
+                            :lecturesMajor :economics ;
+                            :hasInitials "SBE" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#faculty_of_science
+:faculty_of_science rdf:type owl:NamedIndividual ,
+                             :faculty ;
+                    :lecturesMajor :data_science ;
+                    :hasInitials "BETA" .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#faculty_of_science_vu
+:faculty_of_science_vu rdf:type owl:NamedIndividual .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#intelligent_systems
+:intelligent_systems rdf:type owl:NamedIndividual ,
+                              :course ;
+                     :belongsTo :data_science ;
+                     :hasAverageGrade 6.5 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#knowledge_and_data
+:knowledge_and_data rdf:type owl:NamedIndividual ;
+                    :belongsTo :data_science ;
+                    :hasAverageGrade 7 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#management
+:management rdf:type owl:NamedIndividual ;
+            :isLecturedOn :faculty_business_economics ;
+            :hasNumberOfStudents 580 .
+
+
+###  http://www.semanticweb.org/sebas/ontologies/knowledge_and_data/assignment_4#social_and_economic_inequalities
+:social_and_economic_inequalities rdf:type owl:NamedIndividual ;
+                                  :isBeingLeadBy :VictorDeBoer ;
+                                  :hasBudget 1000000 .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi

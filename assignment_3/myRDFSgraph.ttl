@@ -1,0 +1,87 @@
+@prefix ns1: <http://example.com/kad/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ns1:Barcelos a ns1:Town ;
+    rdfs:label "Município de Barcelos"@pt ;
+    ns1:belongsTo ns1:Braga ;
+    ns1:hasTraditionalObject ns1:BarcelosRooster .
+
+ns1:Sintra a ns1:Town ;
+    rdfs:label "Vila de Sintra"@pt ;
+    ns1:belongsTo ns1:Lisbon ;
+    ns1:hasFood ns1:SintraPillows ;
+    rdfs:comment "Sintra (Santa Maria e São Miguel, São Martinho e São Pedro de Penaferrim) (oficialmente, União das Freguesias de Sintra (Santa Maria e São Miguel, São Martinho e São Pedro de Penaferrim)) é uma freguesia portuguesa do município de Sintra, com 63,55 km² de área e 29 591 habitantes (2011)."@pt .
+
+ns1:belongsTo a rdf:Property ;
+    rdfs:domain ns1:Town ;
+    rdfs:range ns1:District .
+
+ns1:hasFood a rdf:Property ;
+    rdfs:domain ns1:Town ;
+    rdfs:range ns1:Food .
+
+ns1:hasTraditionalColor a rdf:Property ;
+    rdfs:domain ns1:Food ;
+    rdfs:range ns1:Color ;
+    rdfs:subPropertyOf ns1:has .
+
+ns1:hasTraditionalObject a rdf:Property ;
+    rdfs:domain ns1:Town ;
+    rdfs:range ns1:TraditionalObject .
+
+ns1:isPartOf a rdf:Property ;
+    rdfs:domain ns1:District ;
+    rdfs:range ns1:Region .
+
+ns1:BarcelosRooster a ns1:TraditionalObject ;
+    rdfs:label "Galo de Barcelos"@pt .
+
+ns1:Braga a ns1:District ;
+    rdfs:label "Braga"@pt ;
+    ns1:isPartOf ns1:NorthRegion .
+
+ns1:CenterRegion a ns1:Region ;
+    rdfs:label "Região Centro"@pt .
+
+ns1:Lisbon a ns1:District ;
+    rdfs:label "Lisboa"@pt ;
+    ns1:isPartOf ns1:CenterRegion .
+
+ns1:NorthRegion a ns1:Region ;
+    rdfs:label "Região Norte"@pt .
+
+ns1:SintraPillows a ns1:Food ;
+    rdfs:label "Travesseiros de Sintra"@pt ;
+    ns1:hasColor ns1:Yellow .
+
+ns1:Yellow a ns1:Color .
+
+ns1:has a rdf:Property ;
+    rdfs:domain ns1:Thing ;
+    rdfs:range ns1:Thing ;
+    rdfs:subPropertyOf ns1:traditionallyHas .
+
+ns1:Color a ns1:Class ;
+    rdfs:subClassOf ns1:Thing .
+
+ns1:TraditionalObject a ns1:Class ;
+    rdfs:subClassOf ns1:Thing .
+
+ns1:Food a ns1:Class ;
+    rdfs:subClassOf ns1:Thing .
+
+ns1:PortugueseLocation a ns1:Class ;
+    rdfs:subClassOf ns1:EuropeanLocation .
+
+ns1:Region a ns1:Class ;
+    rdfs:subClassOf ns1:PortugueseLocation .
+
+ns1:District a ns1:Class ;
+    rdfs:subClassOf ns1:PortugueseLocation .
+
+ns1:Thing a ns1:Class .
+
+ns1:Town a ns1:Class ;
+    rdfs:subClassOf ns1:PortugueseLocation .
+
